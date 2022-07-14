@@ -17,8 +17,6 @@ The company wants to be able to fulfil all orders according to the following rul
 3. Within the constraints of Rules 1 & 2 above, send out as few packs as possible to fulfil each
    order.
 
-> **Note:** I have a query on what to put in UI side to show the result. I haven't done it on front end side. Output from the route returns the array.
-
 ### Solution
 For this problem, we can use below solutions
 1. A brute force approach using recursion
@@ -26,6 +24,7 @@ For this problem, we can use below solutions
 
 I have choosen the second way. In bottom-up approach, I have calculated the solution of smaller problems in an iterative way and store their result in array. Compare the solution with other sub solutions to find the optimal solution.
 
+> **Note:** I have a query on what to put in UI side to show the result. I haven't done it on front end side. Output from the route returns the array.
 ### Routes
 In ```routes/web.php``` file, contain task related routes.
 ``` 
