@@ -34,8 +34,8 @@ Route::get('/min-widgets-packs', WidgetController::class);
 ### Folders
 Path to the code related files
 - `app/Http/Controllers/WidgetController.php`
-- `app/Action/WidgetPacks.php`
-- `app/Models/MinimumWidgetsPacks.php`
+- `app/Actions/WidgetPacks.php`
+- `app/Actions/MinimumWidgetsPacks.php`
 
 ### Installation
 To install with Docker, run following commands:
