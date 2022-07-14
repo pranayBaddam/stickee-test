@@ -1,64 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Stickee Developer challenge
+### Requirement
+Wally’s Widget Company is a widget wholesaler. They sell widgets in a variety of pack sizes:
 
-## About Laravel
+- 250 widgets
+- 500 widgets
+- 1,000 widgets
+- 2,000 widgets
+- 5,000 widgets
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Their customers can order any number of widgets, but they will always be given complete packs.
+The company wants to be able to fulfil all orders according to the following rules:
+1. Only whole packs can be sent. Packs cannot be broken open.
+2. Within the constraints of Rule 1 above, send out no more widgets than necessary to fulfil
+   the order.
+3. Within the constraints of Rules 1 & 2 above, send out as few packs as possible to fulfil each
+   order.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Solution
+For this problem, we can use below solutions
+1. A brute force approach using recursion
+2. An efficient approach using the bottom-up approach of Dynamic Programming.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+I have choosen the second way. In bottom-up approach, I have calculated the solution of smaller problems in an iterative way and store their result in array. Compare the solution with other sub solutions to find the optimal solution.
 
-## Learning Laravel
+### Routes
+In ```routes/web.php``` file, contain task related routes.
+``` 
+Route::get('/min-widgets-packs', WidgetController::class);
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Folders
+Path to the code related files
+- `app/Http/Controllers/WidgetController.php`
+- `app/Action/WidgetPacks.php`
+- `app/Models/MinimumWidgetsPacks.php`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Installation
+To install with Docker, run following commands:
 
-## Laravel Sponsors
+```
+git clone git@github.com:pranayBaddam/stickee-test.git
+cd stickee-test
+cp .env.example .env
+```
+Change following database credentials in .env file
+```
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=stickee_test
+DB_USERNAME=sail
+DB_PASSWORD=password
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Installing Composer Dependencies For Existing Applications
+```
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
+Configuring A Bash Alias
+``` 
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
-### Premium Partners
+``` 
+To start all of the Docker containers in the background, you may start Sail in "detached" mode:
+``` 
+sail up -d
+``` 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Generate a new application key and database migration, data seeding
+``` 
+sail php artisan key:generate
+sail php artisan migrate:fresh --seed
+```
+You can access the server at [http://localhost](http://localhost).
